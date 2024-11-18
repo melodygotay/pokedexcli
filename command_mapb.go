@@ -8,7 +8,8 @@ func commandMapB(cfg *config) error {
 	var current string
 
 	if cfg.Previous == "" {
-		current = baseURL
+		fmt.Println("You're already on the first page!")
+		return nil
 	} else {
 		current = cfg.Previous
 	}
