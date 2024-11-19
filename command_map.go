@@ -13,7 +13,33 @@ func commandMap(cfg *config) error {
 		current = cfg.Next
 	}
 
-	resp, err := getHTTP(current)
+	resp, err := getHTTP(current, cfg.cache)
+	if err != nil {
+		return err
+	}
+
+	cfg.Next = resp.Next
+	cfg.Previous = resp.Previous
+
+	fmt.Println("Locations:")
+	for _, loc := range resp.Results {
+		fmt.Println(loc.Name)
+	}
+
+	return nil
+}
+
+func commandMapB(cfg *config) error {
+	var current string
+
+	if cfg.Previous == "" {
+		fmt.Println("You're already on the first page!")
+		return nil
+	} else {
+		current = cfg.Previous
+	}
+
+	resp, err := getHTTP(current, cfg.cache)
 	if err != nil {
 		return err
 	}

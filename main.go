@@ -1,5 +1,6 @@
 package main
 
 func main() {
-	startRepl()
+	cfg := NewConfig()
+	startRepl(cfg)
 }

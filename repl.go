@@ -7,8 +7,7 @@ import (
 	"strings"
 )
 
-func startRepl() {
-	cfg := &config{}
+func startRepl(cfg *config) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Pokedex > ")
 	fmt.Println("Type 'help' to see available commands.")
