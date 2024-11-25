@@ -20,7 +20,7 @@ func NewCache(t time.Duration) *Cache {
 		cache: make(map[string]cacheEntry),
 		mu:    sync.Mutex{},
 	}
-	c.reapLoop(t)
+	go c.reapLoop(t)
 	return c
 }
 

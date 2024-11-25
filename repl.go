@@ -3,8 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 func startRepl(cfg *config) {
@@ -23,13 +25,18 @@ func startRepl(cfg *config) {
 			continue
 		}
 
+		// Split input into command and arguments
 		input = strings.TrimSpace(input)
-		if input == "" {
+		parts := strings.Fields(input)
+		if len(parts) == 0 {
 			continue
 		}
 
-		if cmd, exists := commands[input]; exists {
-			if err := cmd.callback(cfg); err != nil {
+		commandName := parts[0]
+		args := parts[1:] // This handles additional arguments, such as area names
+
+		if cmd, exists := commands[commandName]; exists {
+			if err := cmd.callback(cfg, args...); err != nil {
 				fmt.Println("Error: ", err)
 			}
 		} else {
@@ -41,7 +48,12 @@ func startRepl(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
+}
+
+func commandCatchWrapper(cfg *config, args ...string) error {
+	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	return commandCatch(cfg, rnd, args...)
 }
 
 var commands map[string]cliCommand
@@ -67,6 +79,16 @@ func initCommands() {
 			name:        "mapb",
 			description: "Displays the previous set of locations",
 			callback:    commandMapB,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Displays the Pokemon in a specified area",
+			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Attempts to catch the specified Pokemon",
+			callback:    commandCatchWrapper,
 		},
 	}
 }

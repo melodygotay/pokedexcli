@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args ...string) error {
 	var current string
 
 	if cfg.Next == "" {
@@ -13,7 +13,7 @@ func commandMap(cfg *config) error {
 		current = cfg.Next
 	}
 
-	resp, err := getHTTP(current, cfg.cache)
+	resp, err := getLocationAreaResp(current, cfg.cache)
 	if err != nil {
 		return err
 	}
@@ -29,7 +29,7 @@ func commandMap(cfg *config) error {
 	return nil
 }
 
-func commandMapB(cfg *config) error {
+func commandMapB(cfg *config, args ...string) error {
 	var current string
 
 	if cfg.Previous == "" {
@@ -39,7 +39,7 @@ func commandMapB(cfg *config) error {
 		current = cfg.Previous
 	}
 
-	resp, err := getHTTP(current, cfg.cache)
+	resp, err := getLocationAreaResp(current, cfg.cache)
 	if err != nil {
 		return err
 	}
