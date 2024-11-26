@@ -100,9 +100,26 @@ type PokemonEncounter struct {
 }
 
 type PokemonDetail struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-	Exp  int    `json:"base_experience"`
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Exp    int    `json:"base_experience"`
+	Height int    `json:"height"`
+	Weight int    `json:"weight"`
+	Stats  []Stat `json:"stats"`
+	Types  []Type `json:"types"`
+}
+
+type Stat struct {
+	BaseStat int `json:"base_stat"`
+	Stat     struct {
+		Name string `json:"name"`
+	} `json:"stat"`
+}
+
+type Type struct {
+	Type struct {
+		TypeName string `json:"name"`
+	} `json:"type"`
 }
 
 type config struct {
